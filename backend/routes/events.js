@@ -1,6 +1,6 @@
 const { response } = require('express');
 const express = require('express');
-const { createEvent, getEvents } = require('../controllers/ eventController');
+const { createEvent, getEvents, getEvent } = require('../controllers/ eventController');
 const Event = require('../models/eventModel');
 
 const router = express.Router();
@@ -9,9 +9,7 @@ const router = express.Router();
 router.get('/', getEvents);
 
 //Get a single event
-router.get('/:id',  (req, res) => {
-    res.json({mssg: 'GET single event'})
-})
+router.get('/:id',  getEvent);
 
 //Post a single event
 router.post('/', createEvent)
