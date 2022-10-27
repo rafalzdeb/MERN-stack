@@ -1,21 +1,27 @@
 const Event = require('../models/eventModel');
+const mongoose = require('mongoose');
 
 //get alll events
 const getEvents =  async(req, res) => {
-    const events = await Event.find({}).sort({createdAt: desc});
+    const events = await Event.find({}).sort({createdAt: 'desc'});
     res.status(200).json(events);
 }
 
 //get a single event
 const getEvent = async (req,res) => {
-    const {id} = req.params.id
+    const {id} = req.params
+    if(!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({error: "Event not found."})
+    }
+
 
     const event = await Event.findById(id)
     if (!event) {
         return res.status(404).json({error: "Event not found."})
-    } else {
-        return res.status(200).json(event);
-    }
+    } 
+    
+    res.status(200).json(event);
+    
  }
 
 //create an event
