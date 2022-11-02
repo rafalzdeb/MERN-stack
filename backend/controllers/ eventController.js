@@ -10,18 +10,25 @@ const getEvents =  async(req, res) => {
 //get a single event
 const getEvent = async (req,res) => {
     const {id} = req.params
-  
-    if(!mongoose.Types.ObjectId.isValid(id)) {
+    if (await isIdValid(id)){
+        const event = await Event.findById(id);
+        res.status(200).json(event);
+    } else {
         return res.status(404).json({error: "Event not found."})
     }
 
 
-    const event = await Event.findById(id)
-    if (!event) {
-        return res.status(404).json({error: "Event not found."})
-    } 
+    // if(!mongoose.Types.ObjectId.isValid(id)) {
+    //     return res.status(404).json({error: "Event not found."})
+    // }
+
+
+    // const event = await Event.findById(id)
+    // if (!event) {
+    //     return res.status(404).json({error: "Event not found."})
+    // } 
     
-    res.status(200).json(event);
+    // res.status(200).json(event);
     
  }
 
@@ -45,38 +52,50 @@ const createEvent = async (req,res) => {
 const deleteEvent = async(req,res) => {
     
     const {id} = req.params
-    
-    if(!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({error: 'Event not found'})
-    }
-
-    const event = await Event.findOneAndDelete({_id: id});
-
-    if (!event) {
+    if (await isIdValid(id)){
+        const event = await Event.findById(id).deleteOne();
+        res.status(200).json(event);
+    } else {
         return res.status(404).json({error: "Event not found."})
     }
 
-    res.status(200).json(event)
+    // if(!mongoose.Types.ObjectId.isValid(id)) {
+    //     return res.status(404).json({error: 'Event not found'})
+    // }
+
+    // const event = await Event.findOneAndDelete({_id: id});
+
+    // if (!event) {
+    //     return res.status(404).json({error: "Event not found."})
+    // }
+
+    // res.status(200).json(event)
 }
 
 //update en event
 const updateEvent = async (req,res) => {
     
     const {id} = req.params
-
-    if(!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({error: 'Event not found'})
-    }
-
-    const event = await Event.findOneAndUpdate({_id: id}, {
-        ...req.body
-    })
-
-    if (!event) {
+    if (await isIdValid(id)){
+        const event = await Event.findById(id).updateOne({_id: id}, {...req.body});
+        res.status(200).json(event);
+    } else {
         return res.status(404).json({error: "Event not found."})
     }
 
-    res.status(200).json(event)
+    // if(!mongoose.Types.ObjectId.isValid(id)) {
+    //     return res.status(404).json({error: 'Event not found'})
+    // }
+
+    // const event = await Event.findOneAndUpdate({_id: id}, {
+    //     ...req.body
+    // })
+
+    // if (!event) {
+    //     return res.status(404).json({error: "Event not found."})
+    // }
+
+    // res.status(200).json(event)
 }
 
 const isIdValid = async (id) => {
