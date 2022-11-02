@@ -1,6 +1,12 @@
 const { response } = require('express');
 const express = require('express');
-const { createEvent, getEvents, getEvent } = require('../controllers/ eventController');
+const { 
+    createEvent,
+    getEvents,
+    getEvent,
+    deleteEvent,
+    updateEvent
+} = require('../controllers/ eventController');
 const Event = require('../models/eventModel');
 
 const router = express.Router();
@@ -15,14 +21,10 @@ router.get('/:id',  getEvent);
 router.post('/', createEvent)
 
 //Delete a single event
-router.delete('/:id', (req, res) => {
-    res.json({mssg: 'DELETE an event'})
-})
+router.delete('/:id', deleteEvent)
+
 
 //Update a single event
-router.patch('/:id', (req, res) => {
-    res.json({mssg: 'UPDATE an event'})
-})
-
+router.patch('/:id', updateEvent)
 
 module.exports = router;
