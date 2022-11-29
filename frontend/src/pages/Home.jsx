@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react'
 
 import EventDetails from '../components/EventDetails'
+import EventForm from '../components/EventForm'
 
 const Home = () => {
     const [events, setEvents] = useState(null);
@@ -25,6 +26,7 @@ const Home = () => {
                 <EventDetails key={event._id} event={event} />
             ))}
            </div>
+           <EventForm />
         </div>
     )
 }
