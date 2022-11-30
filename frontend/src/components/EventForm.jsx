@@ -42,8 +42,10 @@ const EventForm = () => {
                 onChange={(e) => setName(e.target.value)}
                 value = {name}    
             />
+            <button>Add Event</button>
+            {error && <div className="error">{error}</div>}
         </form>
     )
 }
 
-export default EventForm
+export default EventForm 
